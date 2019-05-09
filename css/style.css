@@ -15,6 +15,13 @@ h1 {
     font-size: 35px;
     /* padding:25; */
     text-align: center;
+    border-style: solid
+    border-color: black;
+
+    label {
+       border-block-end-color: black;
+    }
+
    
     
 }

@@ -1,14 +1,6 @@
 'use strict';
 
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
-////////////email address button////////////
-// var userEmail = document.getElementById('email');
-// email.addEventsListener('click' handleEmailClick);
-// function handleEmailClick(event) {
-// 	console.log(${`event.target.textContent}'User email address entered`);
-// 	event.target.textContent = 'clicked';
-// }
-
 
 var allStores = [];
 var hourlyTotals = [];
@@ -20,6 +12,7 @@ function calcRandomCustomers(min, max) {
 }
 var storeTable = document.getElementById('store-table');
 var addStore = document.getElementById('addstore');
+
 // var tableTotal = document.getElementById('totalTable');
 
 // CONSTRUCTOR //
@@ -30,6 +23,7 @@ function Store (name, min, max, avg) {
   this.avgCookieSales = avg;
   this.hourlySales = [];
   this.totalCookiesForTheDay = 0;
+
   this.hourlySalesCalc = function() {
     for (var i = 0; i < hours.length; i++){
       this.hourlySales.push(Math.ceil(calcRandomCustomers(this.minCustomers, this.maxCustomers) * this.avgCookieSales));
@@ -79,6 +73,7 @@ function renderAll(){
     allStores[i].allCall();
   }
 }
+
 //////////HEADER////////////////////
 function tableHeader(){
   var trEl = document.createElement('tr'); //this is the equivalent of typing <tr>
@@ -149,4 +144,23 @@ renderAll();
 hourlyTotalCalc();
 tableFooter();
 
+///////////form button////////////
+
+addStore.addEventListener('submit', handleAddStore);
+function handleAddStore(event) {
+  event.preventDefault();
+  var newName = event.target.location.value;
+  var newMinCustomers = event.target.minCustomers.value;
+  var newMaxCustomers = event.target.maxCustomers.value;
+  var newavgCookieSales = event.target.avgCookieSales.value;
+
+  var newStore = new Store(newName, newMinCustomers, newMaxCustomers, newavgCookieSales);
+
+  if (!newName || !newMinCustomers || !newMaxCustomers || !newavgCookieSales) {
+    return alert('Fields cannot be empty!');
+  }
+
+  event.preventDefault();
+  newStore.allCall();
+}
 
