@@ -27,7 +27,7 @@ function Store (name, min, max, avg) {
   this.hourlySales = [];
   this.totalCookiesForTheDay = 0;
 
-  //////populating the hourlySarles array that holds the cookies sold each hour///////
+  //////populating the hourlySales array that holds the cookies sold each hour///////
   this.hourlySalesCalc = function() {
     for (var i = 0; i < hours.length; i++){
       this.hourlySales.push(Math.ceil(calcRandomCustomers(this.minCustomers, this.maxCustomers) * this.avgCookieSales));
@@ -36,6 +36,7 @@ function Store (name, min, max, avg) {
 
   ////////////calculates the cookies for the day for each store////////////////
   this.totalCookiesForTheDayCalc = function(){
+    this.totalCookiesForTheDay = 0;
     for(var i = 0; i < hours.length; i++){
       this.totalCookiesForTheDay += this.hourlySales[i];
     }
@@ -86,113 +87,114 @@ function hourlyTotalCalc (){
 }
 
 ////////////GRAND TOTAL/////////////////////
-var hourTotalTotal = 0;/////////// total total try
+// var hourTotalTotal = 0;/////////// total total try
 
-hourTotalTotal += hourTotal; 	//////////////total total try
+// hourTotalTotal += hourTotal; 	//////////////total total try
 
-for(var i = 0; i < allStores.length; i++) {
-  var hourTotal = 0;
-  for(var j = 0; j < hours.length; j++) {
-    hourTotal += allStores[i].hourlySales[j];
+// for(var i = 0; i < allStores.length; i++) {
+//   var hourTotal = 0;
+//   for(var j = 0; j < hours.length; j++) {
+//     hourTotal += allStores[i].hourlySales[j];
+// 	}
+
+// }
+console.log('this is the end of my hourlyTotalCal', hourlyTotals);
+
+function renderAll(){
+  tableHeader();
+  for (var i = 0; i < allStores.length; i++){
+    allStores[i].allCall();
   }
-
-  console.log('this is the end of my hourlyTotalCal', hourlyTotals);
-
-  function renderAll(){
-    tableHeader();
-    for (var i = 0; i < allStores.length; i++){
-      allStores[i].allCall();
-    }
-  }
-
-  //////////HEADER////////////////////
-  function tableHeader(){
-    var trEl = document.createElement('tr'); //this is the equivalent of typing <tr>
-
-    // create, content, append for "Name"
-    var thEl = document.createElement('th'); //equivalent of typing <td>
-    thEl.textContent = 'Stores'; //equivalent of: <td> "Text Content" </td>
-    trEl.appendChild(thEl);
-
-    for (var i = 0; i < hours.length; i++){
-      thEl = document.createElement('th'); //equivalent of typing <td>
-      thEl.textContent = hours[i]; //equivalent of: <td> "Text Content" </td>
-      trEl.appendChild(thEl);
-    }
-
-    // //create the next element
-    thEl = document.createElement('th');
-    thEl.textContent = 'Totals';
-    trEl.appendChild(thEl);
-
-    // append the tr to the table
-    storeTable.appendChild(trEl);
-
-  }
-  /////////////////FOOTER///////////////////////
-  function tableFooter(){
-    var tFoot = document.createElement('tfoot');
-    var trEl = document.createElement('tr'); //this is the equivalent of typing <tr>
-
-    // create, content, append for "Name"
-    var tdEl = document.createElement('td'); //equivalent of typing <td>
-    tdEl.textContent = 'Totals'; //equivalent of: <td> "Text Content" </td>
-    trEl.appendChild(tdEl);
-
-    for (var i = 0; i < hours.length; i++){
-      tdEl = document.createElement('td'); //equivalent of typing <td>
-      tdEl.textContent = hourlyTotals[i]; //equivalent of: <td> "Text Content" </td>
-      trEl.appendChild(tdEl);
-    }
-
-    // //create the next element
-    tdEl = document.createElement('td');
-    tdEl.textContent = grandTotal;
-    trEl.appendChild(tdEl);
-    tFoot.appendChild(trEl);
-    storeTable.appendChild(tFoot);
-  }
-
-  ////////////////NEW INSTANCES ////////////////
-  new Store('First and Pike', 23, 65, 6.3);
-  new Store('SeaTac Airport', 3, 24, 1.2);
-  new Store('Seattle Center', 11, 38, 3.7);
-  new Store('Capital Hill', 20, 38, 2.3);
-  new Store('Alki', 2, 16, 4.6);
-
-  ///////////Event Listener////////////
-
-  addStore.addEventListener('submit', handleAddStore);
-
-  function handleAddStore(event) {
-    event.preventDefault();
-    var newName = event.target.location.value;
-    var newMinCustomers = event.target.minCustomers.value;
-    var newMaxCustomers = event.target.maxCustomers.value;
-    var newavgCookieSales = event.target.avgCookieSales.value;
-
-    if (!newName || !newMinCustomers || !newMaxCustomers || !newavgCookieSales) {
-      return alert('Fields cannot be empty!');
-    }
-
-    newMinCustomers = Number(newMinCustomers);
-    newMaxCustomers = parseInt(newMaxCustomers);
-    newavgCookieSales = parseFloat(newavgCookieSales);
-
-    new Store(newName, newMinCustomers, newMaxCustomers, newavgCookieSales);
-
-
-
-    storeTable.innterHTML='';/////////////// CLEAR TABLE DATA////////////////
-
-    //newStore.allCall();
-    renderAll();
-    hourlyTotalCalc();
-    tableFooter();
-  	// ?????????????? }}}}}}}}}}}}}} Need curly bracket?
-
-  	renderAll();
-  	hourlyTotalCalc();
-  	tableFooter();
 }
+
+//////////HEADER////////////////////
+function tableHeader(){
+  var trEl = document.createElement('tr'); //this is the equivalent of typing <tr>
+
+  // create, content, append for "Name"
+  var thEl = document.createElement('th'); //equivalent of typing <td>
+  thEl.textContent = 'Stores'; //equivalent of: <td> "Text Content" </td>
+  trEl.appendChild(thEl);
+
+  for (var i = 0; i < hours.length; i++){
+    thEl = document.createElement('th'); //equivalent of typing <td>
+    thEl.textContent = hours[i]; //equivalent of: <td> "Text Content" </td>
+    trEl.appendChild(thEl);
+  }
+
+  // //create the next element
+  thEl = document.createElement('th');
+  thEl.textContent = 'Totals';
+  trEl.appendChild(thEl);
+
+  // append the tr to the table
+  storeTable.appendChild(trEl);
+
+}
+/////////////////FOOTER///////////////////////
+function tableFooter(){
+  var tFoot = document.createElement('tfoot');
+  var trEl = document.createElement('tr'); //this is the equivalent of typing <tr>
+
+  // create, content, append for "Name"
+  var tdEl = document.createElement('td'); //equivalent of typing <td>
+  tdEl.textContent = 'Totals'; //equivalent of: <td> "Text Content" </td>
+  trEl.appendChild(tdEl);
+
+  for (var i = 0; i < hours.length; i++){
+    tdEl = document.createElement('td'); //equivalent of typing <td>
+    tdEl.textContent = hourlyTotals[i]; //equivalent of: <td> "Text Content" </td>
+    trEl.appendChild(tdEl);
+  }
+
+  // //create the next element
+  tdEl = document.createElement('td');
+  tdEl.textContent = grandTotal;
+  trEl.appendChild(tdEl);
+  tFoot.appendChild(trEl);
+  storeTable.appendChild(tFoot);
+}
+
+////////////////NEW INSTANCES ////////////////
+new Store('First and Pike', 23, 65, 6.3);
+new Store('SeaTac Airport', 3, 24, 1.2);
+new Store('Seattle Center', 11, 38, 3.7);
+new Store('Capital Hill', 20, 38, 2.3);
+new Store('Alki', 2, 16, 4.6);
+
+///////////Event Listener////////////
+
+addStore.addEventListener('submit', handleAddStore);
+
+function handleAddStore(event) {
+  event.preventDefault();
+  var newName = event.target.location.value;
+  var newMinCustomers = event.target.minCustomers.value;
+  var newMaxCustomers = event.target.maxCustomers.value;
+  var newavgCookieSales = event.target.avgCookieSales.value;
+
+  if (!newName || !newMinCustomers || !newMaxCustomers || !newavgCookieSales) {
+    return alert('Fields cannot be empty!');
+  }
+
+  newMinCustomers = Number(newMinCustomers);
+  newMaxCustomers = parseInt(newMaxCustomers);
+  newavgCookieSales = parseFloat(newavgCookieSales);
+
+  new Store(newName, newMinCustomers, newMaxCustomers, newavgCookieSales);
+
+
+  grandTotal = 0;
+  storeTable.innerHTML = '';/////////////// CLEAR TABLE DATA////////////////
+
+  //newStore.allCall();
+  renderAll();
+  hourlyTotalCalc();
+  tableFooter();
+}
+renderAll();
+hourlyTotalCalc();
+tableFooter();
+
+
 
